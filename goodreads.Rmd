@@ -1,0 +1,31 @@
+---
+title: "Good Reads Books"
+output: html_document
+---
+
+---
+```{r loadpackages, message=FALSE, warning=FALSE, echo=FALSE}
+
+library(tidyverse)
+library(scales)
+library(unglue)
+
+```
+
+```{r intro}
+
+library(usethis)
+use_git_config(user.name = "orla-c", 
+               user.email = "s1942599@ed.ac.uk")
+
+```
+
+
+```{r readcsv, warning=FALSE, echo=FALSE, message=FALSE}
+
+goodreads <- read_csv("/cloud/project/books.csv")
+goodreads <- goodreads[complete.cases(goodreads),]
+
+view(goodreads)  
+print(goodreads)
+```
