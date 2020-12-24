@@ -377,9 +377,101 @@ summary {
 
 
 <hr />
-<pre class="r"><code>library(usethis)
-use_git_config(user.name = &quot;orla-c&quot;, 
-               user.email = &quot;s1942599@ed.ac.uk&quot;)</code></pre>
+<pre><code>## # A tibble: 8,469 x 12
+##    bookID title authors average_rating isbn  isbn13 language_code num_pages
+##     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+##  1      1 &quot;Har… J.K. R…           4.57 0439… 97804… eng                 652
+##  2      2 &quot;Har… J.K. R…           4.49 0439… 97804… eng                 870
+##  3      4 &quot;Har… J.K. R…           4.42 0439… 97804… eng                 352
+##  4      5 &quot;Har… J.K. R…           4.56 0439… 97804… eng                 435
+##  5      8 &quot;Har… J.K. R…           4.78 0439… 97804… eng                2690
+##  6      9 &quot;Una… W. Fre…           3.74 0976… 97809… en-US               152
+##  7     10 &quot;Har… J.K. R…           4.73 0439… 97804… eng                3342
+##  8     12 &quot;The… Dougla…           4.38 0517… 97805… eng                 815
+##  9     13 &quot;The… Dougla…           4.38 0345… 97803… eng                 815
+## 10     14 &quot;The… Dougla…           4.22 1400… 97814… eng                 215
+## # … with 8,459 more rows, and 4 more variables: ratings_count &lt;dbl&gt;,
+## #   text_reviews_count &lt;dbl&gt;, publication_date &lt;chr&gt;, publisher &lt;chr&gt;</code></pre>
+<pre class="r"><code>goodreads %&gt;%
+  count(authors)%&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 5,204 x 2
+##    authors                         n
+##    &lt;chr&gt;                       &lt;int&gt;
+##  1 Stephen King                   37
+##  2 Rumiko Takahashi               36
+##  3 Piers Anthony                  30
+##  4 Sandra Brown                   29
+##  5 Dick Francis                   28
+##  6 Mercedes Lackey                28
+##  7 Orson Scott Card               26
+##  8 James Patterson                23
+##  9 Laurell K. Hamilton            23
+## 10 Margaret Weis/Tracy Hickman    23
+## # … with 5,194 more rows</code></pre>
+<pre class="r"><code>goodreads %&gt;%
+  count(publisher)%&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 1,930 x 2
+##    publisher                    n
+##    &lt;chr&gt;                    &lt;int&gt;
+##  1 Vintage                    255
+##  2 Penguin Books              211
+##  3 Penguin Classics           147
+##  4 Ballantine Books           110
+##  5 Mariner Books              104
+##  6 HarperCollins               91
+##  7 Harper Perennial            89
+##  8 VIZ Media LLC               85
+##  9 Bantam                      83
+## 10 Grand Central Publishing    69
+## # … with 1,920 more rows</code></pre>
+<pre class="r"><code>goodreads %&gt;%
+  count(language_code)%&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 22 x 2
+##    language_code     n
+##    &lt;chr&gt;         &lt;int&gt;
+##  1 eng            6815
+##  2 en-US          1040
+##  3 en-GB           159
+##  4 spa             156
+##  5 fre             113
+##  6 ger              73
+##  7 jpn              46
+##  8 mul              19
+##  9 zho              13
+## 10 grc              11
+## # … with 12 more rows</code></pre>
+<pre class="r"><code>books_eng &lt;- goodreads %&gt;%
+  filter(language_code == c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;))</code></pre>
+<pre><code>## Warning in language_code == c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;): longer object
+## length is not a multiple of shorter object length</code></pre>
+<pre class="r"><code>print(books_eng)</code></pre>
+<pre><code>## # A tibble: 2,018 x 12
+##    bookID title authors average_rating isbn  isbn13 language_code num_pages
+##     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+##  1      1 &quot;Har… J.K. R…           4.57 0439… 97804… eng                 652
+##  2      8 &quot;Har… J.K. R…           4.78 0439… 97804… eng                2690
+##  3      9 &quot;Una… W. Fre…           3.74 0976… 97809… en-US               152
+##  4     13 &quot;The… Dougla…           4.38 0345… 97803… eng                 815
+##  5     21 &quot;A S… Bill B…           4.21 0767… 97807… eng                 544
+##  6     25 &quot;I&#39;m… Bill B…           3.9  0767… 97807… eng                 304
+##  7     29 &quot;The… Bill B…           3.93 0380… 97803… eng                 270
+##  8     50 &quot;Hat… Gary P…           3.72 0689… 97806… eng                 208
+##  9     61 &quot;The… Zilpha…           4.17 0595… 97805… eng                 228
+## 10     74 &quot;The… John M…           4.42 0374… 97803… eng                 416
+## # … with 2,008 more rows, and 4 more variables: ratings_count &lt;dbl&gt;,
+## #   text_reviews_count &lt;dbl&gt;, publication_date &lt;chr&gt;, publisher &lt;chr&gt;</code></pre>
+<pre class="r"><code>books_eng %&gt;%
+  filter(authors %like% &quot;J.K. Rowling&quot;)</code></pre>
+<pre><code>## # A tibble: 2 x 12
+##   bookID title authors average_rating isbn  isbn13 language_code num_pages
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;
+## 1      1 Harr… J.K. R…           4.57 0439… 97804… eng                 652
+## 2      8 Harr… J.K. R…           4.78 0439… 97804… eng                2690
+## # … with 4 more variables: ratings_count &lt;dbl&gt;, text_reviews_count &lt;dbl&gt;,
+## #   publication_date &lt;chr&gt;, publisher &lt;chr&gt;</code></pre>
 
 
 

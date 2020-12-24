@@ -9,10 +9,11 @@ output: html_document
 library(tidyverse)
 library(scales)
 library(unglue)
+library(data.table)
 
 ```
 
-```{r intro}
+```{r intro, warning=FALSE, echo=FALSE, message=FALSE}
 
 library(usethis)
 use_git_config(user.name = "orla-c", 
@@ -29,3 +30,52 @@ goodreads <- goodreads[complete.cases(goodreads),]
 view(goodreads)  
 print(goodreads)
 ```
+
+```{r, count}
+goodreads %>%
+  count(authors)%>%
+  arrange(desc(n))
+
+goodreads %>%
+  count(publisher)%>%
+  arrange(desc(n))
+
+goodreads %>%
+  count(language_code)%>%
+  arrange(desc(n))
+```
+
+
+```{r, english}
+books_eng <- goodreads %>%
+  filter(language_code == c("eng", "en-US", "en-GB", "en-CA"))
+
+print(books_eng)
+
+```
+
+
+```{r}
+books_eng %>%
+  filter(authors %like% "J.K. Rowling")
+```
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
