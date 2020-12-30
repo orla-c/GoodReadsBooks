@@ -10,6 +10,10 @@ library(tidyverse)
 library(scales)
 library(unglue)
 library(data.table)
+library(janitor)
+library(broom)
+library(ggplot2)
+library(reshape2)
 
 ```
 
@@ -43,12 +47,16 @@ goodreads %>%
 goodreads %>%
   count(language_code)%>%
   arrange(desc(n))
+
+lang <-table(goodreads$language_code)
+lang
+
 ```
 
 
 ```{r, english}
 books_eng <- goodreads %>%
-  filter(language_code == c("eng", "en-US", "en-GB", "en-CA"))
+  filter(language_code %in% c("eng", "en-US", "en-CA", "en-GB"))
 
 print(books_eng)
 
@@ -56,15 +64,31 @@ print(books_eng)
 
 
 ```{r}
-books_eng %>%
+jkrowling <- books_eng%>%
   filter(authors %like% "J.K. Rowling")
+jkrowling
 ```
 
-```{r}
+```{r, linear_regression_model}
+
+m_br_rt <- lm(average_rating ~ ratings_count, data = books_eng)
+tidy(m_br_rt)
+glance(m_br_rt)$r.squared
+
+
 ```
 
 
-```{r}
+```{r, plot_ratings_against_jkrowling, fig.height=20, fig.width=15}
+jkrowling%>%
+  ggplot(mapping = aes(x = title, y = average_rating)) +
+  geom_bar(stat = "identity", fill = "violet") +
+  labs(x = "Title", 
+       y = "Average Rating",
+       title = "Harry Potter Ratings") +
+  theme(axis.text.x = element_text(angle = 45))
+
+
 ```
 
 
