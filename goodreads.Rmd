@@ -9,11 +9,8 @@ output: html_document
 library(tidyverse)
 library(scales)
 library(unglue)
-library(data.table)
 library(janitor)
 library(broom)
-library(ggplot2)
-library(reshape2)
 
 ```
 
@@ -65,7 +62,7 @@ print(books_eng)
 
 ```{r}
 jkrowling <- books_eng%>%
-  filter(authors %like% "J.K. Rowling")
+  filter(authors == "J.K. Rowling")
 jkrowling
 ```
 
@@ -93,6 +90,16 @@ jkrowling%>%
 
 
 ```{r}
+
+count_authors <- tibble(goodreads$authors)
+count_authors %>%
+  rename("author"= "goodreads$authors")%>%
+  count(author)%>%
+  arrange(desc(n))%>%
+  rename("number of books they wrote" = "n")
+
+
+
 ```
 
 
